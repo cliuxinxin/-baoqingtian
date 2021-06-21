@@ -13,7 +13,6 @@ class Data():
         return resources
 
 data = Data()
-print(data.list_resources())
 
 
 
