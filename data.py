@@ -1,5 +1,6 @@
 import configparser
 import glob
+from orms import *
 
 class Data():
     def __init__(self):
@@ -12,7 +13,14 @@ class Data():
         resources = glob.glob(res_document)
         return resources
 
-data = Data()
+    def update_resources(self):
+        resources = self.list_resources()
+        for resource in resources:
+            Resource.first_or_create(name=resource) 
+
+    def view_resources(self):
+        return Resource.all()
+
 
 
 
