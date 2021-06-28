@@ -2,3 +2,4 @@ databases:
     sqlite:
         driver: sqlite
         database: baoqingtian.db
+        foreign_keys: False

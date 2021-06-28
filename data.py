@@ -1,5 +1,6 @@
 import configparser
 import glob
+import json
 from orms import *
 
 class Data():
@@ -21,6 +22,29 @@ class Data():
     def view_resources(self):
         return Resource.all()
 
+    def read_resource(self,resource):
+        texts = []
+        with open(resource,encoding="utf-8") as f:
+            for line in f:
+                json_f = json.loads(line)
+                texts.append(json_f)
+        return texts
+
+
+    def process_texts(self,texts):
+        for entry in texts:
+            sentence = entry['text']
+            label = []
+            for key1,value1 in entry['label'].items():
+                for key2,value2 in value1.items():
+                    value2[0].append(key1)
+                    label.append(value2[0])
+            self.save_sentence_label(sentence,label)
+
+    def save_sentence_label(self,sentence,label):
+        label = repr(label)
+        sample = Sample.first_or_create(name=sentence)
+        Label.first_or_create(name=label,type='ground_true',sample_id=sample.id)
 
 
 
