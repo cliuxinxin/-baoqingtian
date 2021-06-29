@@ -1,6 +1,6 @@
 from orator import DatabaseManager
 from orator import Model
-from orator.orm import has_many,belongs_to
+from orator.orm import has_many,belongs_to,belongs_to_many
 
 config = {
     'mysql': {
@@ -26,15 +26,23 @@ class Label(Model):
         return Sample
 
 
-
 class Sample(Model):
     __fillable__ = ['name']
 
     @has_many
     def labels(self):
         return Label
+    
+    @belongs_to_many
+    def batches(self):
+        return Batch
 
+class Batch(Model):
+    __fillable__ = ['name']
 
+    @belongs_to_many
+    def samples(self):
+        return Sample
 
 
 

@@ -46,5 +46,12 @@ class Data():
         sample = Sample.first_or_create(name=sentence)
         Label.first_or_create(name=label,type='ground_true',sample_id=sample.id)
 
+    def gernerate_batch(self):
+        batch = Batch.first_or_create(name='test_random')
+        samples = Sample.limit(10).get()
+        for sample in samples:
+            batch.samples().attach(sample.id)
 
+data = Data()
+data.gernerate_batch()
 
